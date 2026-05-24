@@ -1378,6 +1378,32 @@ button {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --section-pad: 4.5rem;
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+  .whatsapp-float {
+    width: 52px;
+    height: 52px;
+    bottom: 20px;
+    right: 20px;
+  }
+  .whatsapp-float svg {
+    width: 26px;
+    height: 26px;
+  }
+  .whatsapp-float .wa-tooltip {
+    display: none; /* Hide tooltip on mobile to avoid screen clutter */
+  }
+  .nav-logo-img-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+  .logo-wordmark {
+    font-size: 1rem;
+  }
   .nav-links,
   .btn-nav {
     display: none;
