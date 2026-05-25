@@ -1380,6 +1380,9 @@ button {
   :root {
     --section-pad: 4.5rem;
   }
+  .navbar, .navbar.scrolled {
+    padding: 1rem 0;
+  }
   .hero-title {
     font-size: clamp(2.5rem, 12vw, 4rem);
   }
