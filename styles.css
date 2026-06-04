@@ -798,6 +798,34 @@ button {
   gap: 0.8rem;
 }
 
+/* 14.5 ABOUT THE BARBER */
+.about-barber {
+  background: var(--black-lifted);
+  padding: var(--section-pad) 0;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.about-image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.about-image img {
+  width: 100%;
+  display: block;
+}
+.about-text {
+  font-size: 1.05rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
 /* 15. GALLERY SECTION */
 .gallery {
   background: var(--black);
@@ -805,7 +833,7 @@ button {
 }
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-template-rows: auto;
   gap: 1rem;
   margin-top: 3rem;
@@ -817,10 +845,7 @@ button {
   aspect-ratio: 4/3;
   cursor: pointer;
 }
-.gallery-item:first-child {
-  grid-row: span 2;
-  aspect-ratio: auto;
-}
+
 .gallery-item img {
   width: 100%;
   height: 100%;
@@ -1416,9 +1441,9 @@ button {
   .gallery-grid {
     grid-template-columns: 1fr;
   }
-  .gallery-item:first-child {
-    grid-row: span 1;
-    aspect-ratio: 4/3;
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
   .testimonial-card {
     min-width: calc(100% - 1rem);
