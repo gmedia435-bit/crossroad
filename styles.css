@@ -119,6 +119,10 @@ button {
   width: 2rem;
   height: 1px;
   background: var(--brand-red);
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.section-label:hover::before {
+  width: 3.5rem;
 }
 
 /* 7. BUTTONS */
@@ -133,7 +137,7 @@ button {
   letter-spacing: 0.05em;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
   white-space: nowrap;
@@ -148,7 +152,7 @@ button {
 .btn-primary:hover {
   background: var(--brand-red-hover);
   border-color: var(--brand-red-hover);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.03);
   box-shadow: 0 8px 32px rgba(139, 26, 26, 0.4);
 }
 
@@ -159,7 +163,7 @@ button {
 }
 .btn-outline:hover {
   border-color: var(--white);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.03);
   background: rgba(255,255,255,0.05);
 }
 
@@ -261,32 +265,41 @@ button {
 .reveal {
   opacity: 0;
   transform: translateY(36px);
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: blur(8px);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter 0.8s ease;
 }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
 }
 .reveal-left {
   opacity: 0;
   transform: translateX(-36px);
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: blur(8px);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter 0.8s ease;
 }
 .reveal-left.visible {
   opacity: 1;
   transform: translateX(0);
+  filter: blur(0);
 }
 .reveal-right {
   opacity: 0;
   transform: translateX(36px);
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: blur(8px);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter 0.8s ease;
 }
 .reveal-right.visible {
   opacity: 1;
   transform: translateX(0);
+  filter: blur(0);
 }
 
 /* 11. NAVBAR */
@@ -331,6 +344,10 @@ button {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-logo:hover .nav-logo-img-wrapper {
+  transform: rotate(10deg) scale(1.08);
 }
 .nav-logo-img {
   height: 100%;
@@ -690,7 +707,7 @@ button {
   padding: 2.5rem 2rem;
   position: relative;
   overflow: hidden;
-  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color var(--transition), box-shadow var(--transition);
   display: flex;
   flex-direction: column;
 }
@@ -704,9 +721,9 @@ button {
   transition: transform var(--transition);
 }
 .service-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px) scale(1.02);
   border-color: var(--border-red);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 20px var(--brand-red-glow);
 }
 .service-card:hover::before {
   transform: scaleX(1);
@@ -818,10 +835,19 @@ button {
   overflow: hidden;
   position: relative;
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease;
+}
+.about-image:hover {
+  transform: scale(1.02) rotate(-1deg);
+  box-shadow: 0 16px 60px rgba(139, 26, 26, 0.3), 0 10px 40px rgba(0,0,0,0.5);
 }
 .about-image img {
   width: 100%;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.about-image:hover img {
+  transform: scale(1.04);
 }
 .about-text {
   font-size: 1.05rem;
@@ -854,10 +880,10 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .gallery-item:hover img {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 .gallery-overlay {
   position: absolute;
