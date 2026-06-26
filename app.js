@@ -384,4 +384,169 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
 
+  /* ══════════════════════════════════════════
+     12. BOOKING MODAL
+  ══════════════════════════════════════════ */
+  const bookingOverlay  = document.getElementById('bookingModalOverlay');
+  const bookingClose    = document.getElementById('bookingModalClose');
+  const bookingForm     = document.getElementById('bookingForm');
+  const openBtns        = document.querySelectorAll('.open-booking-modal');
+
+  function openBookingModal() {
+    bookingOverlay.removeAttribute('hidden');
+    // Small delay so CSS transition fires after display
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        bookingOverlay.classList.add('modal-visible');
+      });
+    });
+    document.body.style.overflow = 'hidden';
+    // Focus the first field
+    const first = bookingOverlay.querySelector('input, select');
+    if (first) setTimeout(() => first.focus(), 400);
+  }
+
+  function closeBookingModal() {
+    bookingOverlay.classList.remove('modal-visible');
+    document.body.style.overflow = '';
+    bookingOverlay.addEventListener('transitionend', () => {
+      bookingOverlay.setAttribute('hidden', '');
+    }, { once: true });
+  }
+
+  // Open on any trigger button
+  openBtns.forEach(btn => btn.addEventListener('click', openBookingModal));
+
+  // Close on X button
+  if (bookingClose) bookingClose.addEventListener('click', closeBookingModal);
+
+  // Close on overlay backdrop click
+  if (bookingOverlay) {
+    bookingOverlay.addEventListener('click', (e) => {
+      if (e.target === bookingOverlay) closeBookingModal();
+    });
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && bookingOverlay && !bookingOverlay.hasAttribute('hidden')) {
+      closeBookingModal();
+    }
+  });
+
+  // Form validation helper
+  function showError(field, msg) {
+    field.classList.add('invalid');
+    let err = field.parentElement.querySelector('.field-error');
+    if (!err) {
+      err = document.createElement('span');
+      err.className = 'field-error';
+      err.setAttribute('role', 'alert');
+      field.parentElement.appendChild(err);
+    }
+    err.textContent = msg;
+  }
+
+  function clearError(field) {
+    field.classList.remove('invalid');
+    const err = field.parentElement.querySelector('.field-error');
+    if (err) err.remove();
+  }
+
+  // Clear errors on input
+  if (bookingForm) {
+    bookingForm.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('input', () => clearError(el));
+      el.addEventListener('change', () => clearError(el));
+    });
+
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const nameEl    = document.getElementById('bookingName');
+      const serviceEl = document.getElementById('bookingService');
+      const dateEl    = document.getElementById('bookingDate');
+      const timeEl    = document.getElementById('bookingTime');
+
+      let valid = true;
+
+      // Validate name
+      if (!nameEl.value.trim()) {
+        showError(nameEl, 'Please enter your full name.');
+        valid = false;
+      } else {
+        clearError(nameEl);
+      }
+
+      // Validate service
+      if (!serviceEl.value) {
+        showError(serviceEl, 'Please select a service.');
+        valid = false;
+      } else {
+        clearError(serviceEl);
+      }
+
+      // Validate date
+      if (!dateEl.value) {
+        showError(dateEl, 'Please choose a date.');
+        valid = false;
+      } else {
+        const chosen = new Date(dateEl.value);
+        const today  = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (chosen < today) {
+          showError(dateEl, 'Please pick a future date.');
+          valid = false;
+        } else {
+          clearError(dateEl);
+        }
+      }
+
+      // Validate time
+      if (!timeEl.value) {
+        showError(timeEl, 'Please choose a time.');
+        valid = false;
+      } else {
+        clearError(timeEl);
+      }
+
+      if (!valid) return;
+
+      // Format date nicely: e.g. "Monday, 30 June 2026"
+      const dateObj = new Date(dateEl.value + 'T00:00:00');
+      const formattedDate = dateObj.toLocaleDateString('en-GH', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+
+      // Format time nicely: e.g. "2:30 PM"
+      const [hh, mm] = timeEl.value.split(':');
+      const timeObj = new Date();
+      timeObj.setHours(parseInt(hh, 10), parseInt(mm, 10));
+      const formattedTime = timeObj.toLocaleTimeString('en-GH', {
+        hour: 'numeric', minute: '2-digit', hour12: true
+      });
+
+      // Build WhatsApp message
+      const msg = [
+        `Hi Crossroad Clippers! 👋`,
+        ``,
+        `I'd like to book an appointment.`,
+        ``,
+        `📛 Name: ${nameEl.value.trim()}`,
+        `✂️ Service: ${serviceEl.value}`,
+        `📅 Date: ${formattedDate}`,
+        `🕐 Time: ${formattedTime}`,
+        ``,
+        `Please confirm my slot. Thank you!`
+      ].join('\n');
+
+      const waUrl = `https://wa.me/233243554624?text=${encodeURIComponent(msg)}`;
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+      // Reset and close
+      bookingForm.reset();
+      closeBookingModal();
+    });
+  }
+
 });
