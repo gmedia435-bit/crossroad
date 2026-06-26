@@ -394,24 +394,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openBookingModal() {
     bookingOverlay.removeAttribute('hidden');
-    // Small delay so CSS transition fires after display
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        bookingOverlay.classList.add('modal-visible');
-      });
-    });
+    setTimeout(() => {
+      bookingOverlay.classList.add('modal-visible');
+    }, 20);
     document.body.style.overflow = 'hidden';
     // Focus the first field
-    const first = bookingOverlay.querySelector('input, select');
-    if (first) setTimeout(() => first.focus(), 400);
+    const first = bookingOverlay.querySelector('input');
+    if (first) setTimeout(() => first.focus(), 250);
   }
 
   function closeBookingModal() {
     bookingOverlay.classList.remove('modal-visible');
     document.body.style.overflow = '';
-    bookingOverlay.addEventListener('transitionend', () => {
-      bookingOverlay.setAttribute('hidden', '');
-    }, { once: true });
+    setTimeout(() => {
+      if (!bookingOverlay.classList.contains('modal-visible')) {
+        bookingOverlay.setAttribute('hidden', '');
+      }
+    }, 350);
   }
 
   // Open on any trigger button
