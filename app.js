@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Clear errors on input
   if (bookingForm) {
-    bookingForm.querySelectorAll('input, select').forEach(el => {
+    bookingForm.querySelectorAll('input').forEach(el => {
       el.addEventListener('input', () => clearError(el));
       el.addEventListener('change', () => clearError(el));
     });
@@ -464,7 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const nameEl    = document.getElementById('bookingName');
-      const serviceEl = document.getElementById('bookingService');
       const dateEl    = document.getElementById('bookingDate');
       const timeEl    = document.getElementById('bookingTime');
 
@@ -476,14 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
         valid = false;
       } else {
         clearError(nameEl);
-      }
-
-      // Validate service
-      if (!serviceEl.value) {
-        showError(serviceEl, 'Please select a service.');
-        valid = false;
-      } else {
-        clearError(serviceEl);
       }
 
       // Validate date
@@ -533,7 +524,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `I'd like to book an appointment.`,
         ``,
         `📛 Name: ${nameEl.value.trim()}`,
-        `✂️ Service: ${serviceEl.value}`,
         `📅 Date: ${formattedDate}`,
         `🕐 Time: ${formattedTime}`,
         ``,
