@@ -1,0 +1,23 @@
+{
+  "name": "crossroad-clippers",
+  "version": "1.0.0",
+  "description": "Crossroad Clippers - Premium Barber Studio in Accra, Ghana",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build required'",
+    "lint": "echo 'No linter configured'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "barber",
+    "grooming",
+    "accra",
+    "ghana"
+  ],
+  "author": "Crossroad Clippers",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
