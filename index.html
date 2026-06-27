@@ -4,6 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- ══ SECURITY HEADERS ══ -->
+  <!-- Prevents clickjacking by stopping this page being embedded in a frame -->
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <!-- Prevents MIME-type sniffing attacks -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <!-- Controls how much referrer info is sent with requests -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- Disables features that could be abused (camera, mic, geolocation) -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
+  <!-- Content Security Policy: only load resources from trusted origins -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self';
+    style-src 'self' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: https://crossroadclippers.com;
+    media-src 'self';
+    frame-src https://maps.google.com https://www.google.com;
+    connect-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    upgrade-insecure-requests;
+  ">
+
   <!-- ══ PRIMARY SEO ══ -->
   <title>Crossroad Clippers | Unisex Grooming Studio | Best Barber in Accra</title>
   <meta name="description" content="Looking for the best barber in Accra? Crossroad Clippers on Gyedu St delivers precision skin fades, beard trimming, ladies cuts, locs, and premium unisex grooming across Osu, Labone, Cantonments, and East Legon. Open every day 8:30AM–10PM.">
@@ -675,7 +700,7 @@
       <form class="booking-form" id="bookingForm" novalidate>
         <div class="booking-field">
           <label for="bookingName">Your Name</label>
-          <input type="text" id="bookingName" name="name" placeholder="Enter your full name" required autocomplete="name">
+          <input type="text" id="bookingName" name="name" placeholder="Enter your full name" required autocomplete="name" maxlength="80" spellcheck="false">
         </div>
         <div class="booking-field">
           <label for="bookingDate">Date</label>
@@ -699,7 +724,7 @@
     <div class="container" style="text-align: center; max-width: 600px;">
       <div class="footer-logo" style="margin-bottom: 0.5rem;">CROSSROAD <span>CLIPPERS</span></div>
       <div class="footer-socials" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; margin-top: 1rem;">
-        <a href="https://www.instagram.com/crossroad_clippers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="color: var(--brand-red); transition: color 0.3s ease;" onmouseover="this.style.color='var(--brand-red-hover)'" onmouseout="this.style.color='var(--brand-red)'">
+        <a href="https://www.instagram.com/crossroad_clippers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="footer-instagram-link">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
         </a>
       </div>

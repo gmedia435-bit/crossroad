@@ -1690,3 +1690,39 @@ button {
     right: 1.5rem;
   }
 }
+
+/* ═══════════════════════════════════════════
+   SECURITY / CLEAN CSS REPLACEMENTS
+   (replaces removed inline event handlers)
+═══════════════════════════════════════════ */
+/* Instagram footer icon hover — replaced onmouseover/onmouseout */
+.footer-instagram-link {
+  color: var(--brand-red);
+  transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer-instagram-link:hover,
+.footer-instagram-link:focus-visible {
+  color: var(--brand-red-hover);
+}
+
+/* Keyboard focus outline for all interactive elements (accessibility + security) */
+:focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Prevent text selection on UI buttons to avoid accidental data leaks */
+.btn,
+.booking-submit,
+.booking-modal-close,
+.slider-btn,
+.faq-question,
+.hamburger {
+  user-select: none;
+  -webkit-user-select: none;
+}
+

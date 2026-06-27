@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
       err.setAttribute('role', 'alert');
       field.parentElement.appendChild(err);
     }
-    err.textContent = msg;
+    err.textContent = msg; // textContent is safe — no HTML injection
   }
 
   function clearError(field) {
@@ -451,6 +451,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const err = field.parentElement.querySelector('.field-error');
     if (err) err.remove();
   }
+
+  // Sanitise plain text input: strip HTML/script characters, limit length
+  function sanitiseText(str) {
+    return str
+      .trim()
+      .slice(0, 80)                                  // enforce max length
+      .replace(/[<>"'`&]/g, '')                      // strip injection chars
+      .replace(/[\r\n\t]/g, ' ');                    // normalise whitespace
+  }
+
+  // Rate-limit: block rapid re-submissions (prevents WhatsApp spam)
+  let lastSubmitTime = 0;
+  const SUBMIT_COOLDOWN_MS = 10000; // 10 seconds between submissions
 
   // Clear errors on input
   if (bookingForm) {
@@ -502,6 +515,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!valid) return;
 
+      // Rate-limit check
+      const now = Date.now();
+      if (now - lastSubmitTime < SUBMIT_COOLDOWN_MS) {
+        const remaining = Math.ceil((SUBMIT_COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
+        showError(nameEl, `Please wait ${remaining}s before submitting again.`);
+        return;
+      }
+      lastSubmitTime = now;
+
+      // Sanitise all user inputs before use
+      const safeName = sanitiseText(nameEl.value);
+      if (!safeName) {
+        showError(nameEl, 'Please enter a valid name.');
+        return;
+      }
+
       // Format date nicely: e.g. "Monday, 30 June 2026"
       const dateObj = new Date(dateEl.value + 'T00:00:00');
       const formattedDate = dateObj.toLocaleDateString('en-GH', {
@@ -516,20 +545,23 @@ document.addEventListener('DOMContentLoaded', () => {
         hour: 'numeric', minute: '2-digit', hour12: true
       });
 
-      // Build WhatsApp message
+      // Build WhatsApp message using sanitised values only
       const msg = [
-        `Hi Crossroad Clippers! 👋`,
+        `Hi Crossroad Clippers! \u{1F44B}`,
         ``,
         `I'd like to book an appointment.`,
         ``,
-        `📛 Name: ${nameEl.value.trim()}`,
-        `📅 Date: ${formattedDate}`,
-        `🕐 Time: ${formattedTime}`,
+        `\u{1F4DB} Name: ${safeName}`,
+        `\u{1F4C5} Date: ${formattedDate}`,
+        `\u{1F550} Time: ${formattedTime}`,
         ``,
         `Please confirm my slot. Thank you!`
       ].join('\n');
 
+      // Build the WhatsApp URL — encodeURIComponent ensures safe encoding
       const waUrl = `https://wa.me/233243554624?text=${encodeURIComponent(msg)}`;
+
+      // noopener,noreferrer prevents the new tab from accessing window.opener
       window.open(waUrl, '_blank', 'noopener,noreferrer');
 
       // Reset and close
